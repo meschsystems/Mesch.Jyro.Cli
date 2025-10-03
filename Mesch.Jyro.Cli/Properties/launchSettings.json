@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Mesch.Jyro.CliInterpreter": {
+      "commandName": "Project",
+      "commandLineArgs": "-i \"C:\\Users\\LesRitchin\\OneDrive - Mesch Systems\\leaderboard.jyro\"\r\n-d \"C:\\Users\\LesRitchin\\OneDrive - Mesch Systems\\points.json"
+    }
+  }
+}
