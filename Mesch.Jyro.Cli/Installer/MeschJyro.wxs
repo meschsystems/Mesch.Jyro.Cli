@@ -4,9 +4,11 @@
 
   <Package Name="Mesch Jyro"
            Manufacturer="Mesch"
-           Version="0.0.5"
+           Version="0.0.6"
            UpgradeCode="1691d170-6956-4764-9ec4-0a14a5849cce"
            InstallerVersion="500">
+
+    <Media Id="1" Cabinet="MeschJyro.cab" EmbedCab="yes" />
 
     <MajorUpgrade DowngradeErrorMessage="A newer version is already installed." />
 
