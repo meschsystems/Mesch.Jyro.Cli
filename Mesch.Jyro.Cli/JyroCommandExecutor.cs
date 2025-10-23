@@ -44,6 +44,7 @@ public sealed class JyroCommandExecutor
                 .WithData(data)
                 .WithOptions(new JyroExecutionOptions())
                 .WithStandardLibrary()
+                .WithRestApi()
                 .Run();
 
             if (!result.IsSuccessful)

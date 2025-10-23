@@ -57,7 +57,8 @@ internal sealed class JyroScriptExecutor : IJyroScriptExecutor
             .WithScript(script)
             .WithData(data)
             .WithOptions(CreateExecutionOptions())
-            .WithStandardLibrary();
+            .WithStandardLibrary()
+            .WithRestApi();
 
         await ExecuteScriptAsync();
     }
