@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Mesch.Jyro.Cli.Options;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Mesch.Jyro.Cli;
 
@@ -22,11 +23,11 @@ internal sealed class JyroScriptExecutor : IJyroScriptExecutor
     public JyroScriptExecutor(
         JyroBuilder builder,
         ILogger<JyroScriptExecutor> logger,
-        JyroCommandOptions options)
+        IOptions<JyroCommandOptions> options)
     {
         _builder = builder ?? throw new ArgumentNullException(nameof(builder));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _options = options ?? throw new ArgumentNullException(nameof(options));
+        _options = options?.Value ?? throw new ArgumentNullException(nameof(options));
     }
 
     /// <summary>
@@ -60,7 +61,42 @@ internal sealed class JyroScriptExecutor : IJyroScriptExecutor
             .WithStandardLibrary()
             .WithRestApi();
 
+        // Load plugins if specified
+        LoadPlugins();
+
         await ExecuteScriptAsync();
+    }
+
+    /// <summary>
+    /// Loads plugin assemblies based on command-line options.
+    /// </summary>
+    private void LoadPlugins()
+    {
+        // Load from single assembly file if specified
+        if (!string.IsNullOrWhiteSpace(_options.PluginAssembly))
+        {
+            _logger.LogInformation("Loading plugins from assembly: {PluginAssembly}", _options.PluginAssembly);
+            _builder.WithFunctionsFromAssemblyPath(_options.PluginAssembly);
+        }
+
+        // Load from directory if specified
+        if (!string.IsNullOrWhiteSpace(_options.PluginDirectory))
+        {
+            var searchOption = _options.PluginRecursive
+                ? SearchOption.AllDirectories
+                : SearchOption.TopDirectoryOnly;
+
+            _logger.LogInformation(
+                "Loading plugins from directory: {PluginDirectory} (Pattern: {Pattern}, Recursive: {Recursive})",
+                _options.PluginDirectory,
+                _options.PluginSearchPattern,
+                _options.PluginRecursive);
+
+            _builder.WithFunctionsFromDirectory(
+                _options.PluginDirectory,
+                _options.PluginSearchPattern,
+                searchOption);
+        }
     }
 
     /// <summary>

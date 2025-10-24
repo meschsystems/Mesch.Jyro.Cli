@@ -43,6 +43,26 @@ public sealed class JyroCommandOptions
     public bool ConsoleLogging { get; set; } = true;
 
     /// <summary>
+    /// Gets or sets the path to a plugin assembly DLL file to load custom functions from.
+    /// </summary>
+    public string? PluginAssembly { get; set; }
+
+    /// <summary>
+    /// Gets or sets the path to a directory containing plugin assembly DLL files.
+    /// </summary>
+    public string? PluginDirectory { get; set; }
+
+    /// <summary>
+    /// Gets or sets the search pattern for plugin DLL files when loading from a directory.
+    /// </summary>
+    public string PluginSearchPattern { get; set; } = "*.dll";
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to search subdirectories for plugin DLLs.
+    /// </summary>
+    public bool PluginRecursive { get; set; }
+
+    /// <summary>
     /// Validates the options and applies smart defaults.
     /// </summary>
     /// <exception cref="InvalidOperationException">Thrown when required options are missing or invalid.</exception>
@@ -61,6 +81,16 @@ public sealed class JyroCommandOptions
         if (!string.IsNullOrWhiteSpace(DataJsonFile) && !File.Exists(DataJsonFile))
         {
             throw new InvalidOperationException($"Data JSON file not found: {DataJsonFile}");
+        }
+
+        if (!string.IsNullOrWhiteSpace(PluginAssembly) && !File.Exists(PluginAssembly))
+        {
+            throw new InvalidOperationException($"Plugin assembly file not found: {PluginAssembly}");
+        }
+
+        if (!string.IsNullOrWhiteSpace(PluginDirectory) && !Directory.Exists(PluginDirectory))
+        {
+            throw new InvalidOperationException($"Plugin directory not found: {PluginDirectory}");
         }
     }
 }

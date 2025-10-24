@@ -4,7 +4,7 @@
 
   <Package Name="Mesch Jyro"
            Manufacturer="Mesch"
-           Version="0.1.0"
+           Version="0.2.2"
            UpgradeCode="1691d170-6956-4764-9ec4-0a14a5849cce"
            InstallerVersion="500">
 
@@ -42,11 +42,23 @@
                         Permanent="no" />
     </Component>
 
+    <!-- Create AppData\Roaming\Jyro folder for config files -->
+    <Component Id="CreateAppDataFolder" Directory="JyroAppDataFolder" Guid="7c8f4b2a-1e3d-4a6f-9b5c-2d7e8f9a0b1c">
+      <CreateFolder />
+      <RegistryValue Root="HKCU"
+                     Key="Software\Mesch\Mesch Jyro"
+                     Name="AppDataFolder"
+                     Type="integer"
+                     Value="1"
+                     KeyPath="yes" />
+    </Component>
+
     <!-- Feature -->
     <Feature Id="Main">
       <ComponentGroupRef Id="MeschJyroComponents" />
       <ComponentRef Id="StartMenuShortcut" />
       <ComponentRef Id="AddToPath" />
+      <ComponentRef Id="CreateAppDataFolder" />
     </Feature>
 
     <!-- Program Files install path -->
@@ -54,6 +66,11 @@
       <Directory Id="DIR_MESCH" Name="Mesch">
         <Directory Id="INSTALLFOLDER" Name="Mesch Jyro" />
       </Directory>
+    </StandardDirectory>
+
+    <!-- AppData\Roaming\Jyro path for config files -->
+    <StandardDirectory Id="AppDataFolder">
+      <Directory Id="JyroAppDataFolder" Name="Jyro" />
     </StandardDirectory>
 
   </Package>

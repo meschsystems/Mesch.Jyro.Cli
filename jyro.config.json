@@ -1,0 +1,13 @@
+{
+  "InputScriptFile": null,
+  "DataJsonFile": null,
+  "OutputJsonFile": null,
+  "LogFile": null,
+  "LogLevel": "Information",
+  "NoLogging": false,
+  "ConsoleLogging": true,
+  "PluginAssembly": null,
+  "PluginDirectory": null,
+  "PluginSearchPattern": "*.dll",
+  "PluginRecursive": false
+}
