@@ -4,7 +4,7 @@
 
   <Package Name="Mesch Jyro"
            Manufacturer="Mesch"
-           Version="0.3.2"
+           Version="0.3.5"
            UpgradeCode="1691d170-6956-4764-9ec4-0a14a5849cce"
            InstallerVersion="500">
 
