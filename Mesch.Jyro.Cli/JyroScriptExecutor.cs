@@ -33,9 +33,8 @@ internal sealed class JyroScriptExecutor : IJyroScriptExecutor
     /// <summary>
     /// Executes the Jyro script according to the configured options.
     /// </summary>
-    /// <returns>A task representing the asynchronous operation.</returns>
-    /// <exception cref="InvalidOperationException">Thrown when script execution fails.</exception>
-    public async Task ExecuteAsync()
+    /// <returns>A task containing the exit code: 0 for success, non-zero for failure.</returns>
+    public async Task<int> ExecuteAsync()
     {
         _options.Validate();
 
@@ -47,7 +46,10 @@ internal sealed class JyroScriptExecutor : IJyroScriptExecutor
         // Validate the input script file
         if (!File.Exists(_options.InputScriptFile))
         {
-            throw new FileNotFoundException("Input script file not found", _options.InputScriptFile);
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"Error: Input script file not found: {_options.InputScriptFile}");
+            Console.ResetColor();
+            return 1;
         }
 
         var script = await File.ReadAllTextAsync(_options.InputScriptFile);
@@ -64,7 +66,7 @@ internal sealed class JyroScriptExecutor : IJyroScriptExecutor
         // Load plugins if specified
         LoadPlugins();
 
-        await ExecuteScriptAsync();
+        return await ExecuteScriptAsync();
     }
 
     /// <summary>
@@ -115,13 +117,14 @@ internal sealed class JyroScriptExecutor : IJyroScriptExecutor
     }
 
     /// <summary>
-    /// Executes the Jyro script
+    /// Executes the Jyro script.
     /// </summary>
-    private async Task ExecuteScriptAsync()
+    /// <returns>Exit code: 0 for success, 1 for failure.</returns>
+    private async Task<int> ExecuteScriptAsync()
     {
         _logger.LogInformation("Executing script");
         var result = _builder.Run();
-        await OutputExecutionResultsAsync(result);
+        return await OutputExecutionResultsAsync(result);
     }
 
     /// <summary>
@@ -144,8 +147,8 @@ internal sealed class JyroScriptExecutor : IJyroScriptExecutor
     /// Outputs the script execution results to console and/or file.
     /// </summary>
     /// <param name="result">The execution result.</param>
-    /// <exception cref="InvalidOperationException">Thrown when script execution fails.</exception>
-    private async Task OutputExecutionResultsAsync(JyroExecutionResult result)
+    /// <returns>Exit code: 0 for success, 1 for failure.</returns>
+    private async Task<int> OutputExecutionResultsAsync(JyroExecutionResult result)
     {
         if (!result.IsSuccessful)
         {
@@ -155,7 +158,7 @@ internal sealed class JyroScriptExecutor : IJyroScriptExecutor
                 Console.WriteLine(msg.ToString());
                 Console.ResetColor();
             }
-            throw new InvalidOperationException("Jyro script execution failed.");
+            return 1;
         }
 
         var outputJson = JsonSerializer.Serialize(
@@ -172,5 +175,7 @@ internal sealed class JyroScriptExecutor : IJyroScriptExecutor
             Console.WriteLine(outputJson);
             _logger.LogInformation("Execution complete. Output written to stdout");
         }
+
+        return 0;
     }
 }

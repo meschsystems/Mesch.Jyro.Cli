@@ -8,6 +8,6 @@ internal interface IJyroScriptExecutor
     /// <summary>
     /// Executes a Jyro script according to the configured options.
     /// </summary>
-    /// <returns>A task representing the asynchronous execution operation.</returns>
-    Task ExecuteAsync();
+    /// <returns>A task containing the exit code: 0 for success, non-zero for failure.</returns>
+    Task<int> ExecuteAsync();
 }

@@ -258,8 +258,7 @@ internal sealed class JyroCommandFactory
 
             // Resolve from DI
             var executor = host.Services.GetRequiredService<IJyroScriptExecutor>();
-            await executor.ExecuteAsync();
-            return 0;
+            return await executor.ExecuteAsync();
         });
 
         return rootCommand;
