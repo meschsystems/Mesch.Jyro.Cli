@@ -7,3 +7,4 @@ using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Style", "IDE0290:Use primary constructor", Justification = "Sometimes changes semantics")]
 [assembly: SuppressMessage("Performance", "CA1869:Cache and reuse 'JsonSerializerOptions' instances", Justification = "We only call it once", Scope = "member", Target = "~M:Mesch.Jyro.CliInterpreter.JyroScriptExecutor.OutputExecutionResultsAsync(Mesch.Jyro.JyroExecutionResult)~System.Threading.Tasks.Task")]
+[assembly: SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Required for factory", Scope = "member", Target = "~M:Mesch.Jyro.Cli.JyroCommandFactory.CreateRootCommand~System.CommandLine.RootCommand")]
