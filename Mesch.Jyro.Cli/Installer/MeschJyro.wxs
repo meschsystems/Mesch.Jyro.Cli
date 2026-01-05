@@ -4,9 +4,10 @@
 
   <Package Name="Mesch Jyro"
            Manufacturer="Mesch"
-           Version="0.5.0"
+           Version="$(Version)"
            UpgradeCode="1691d170-6956-4764-9ec4-0a14a5849cce"
-           InstallerVersion="500">
+           InstallerVersion="500"
+           Scope="perMachine">
 
     <Media Id="1" Cabinet="MeschJyro.cab" EmbedCab="yes" />
 
@@ -14,14 +15,14 @@
 
     <!-- Component group for all application files -->
     <ComponentGroup Id="MeschJyroComponents" Directory="INSTALLFOLDER">
-      <Files Include="C:\GitHub\MeschSystems\Mesch.Jyro.Cli\Mesch.Jyro.Cli\bin\Release\net10.0\*.*" />
+      <Files Include="C:\GitHub\MeschSystems\Mesch.Jyro.Cli\Mesch.Jyro.Cli\bin\Release\net10.0\win-x64\publish\*.*" />
     </ComponentGroup>
 
     <!-- Start Menu shortcut -->
     <Component Id="StartMenuShortcut" Directory="ProgramMenuFolder">
       <Shortcut Id="MeschJyroShortcut"
                 Name="Mesch Jyro"
-                Target="[INSTALLFOLDER]Mesch.Jyro.exe"
+                Target="[INSTALLFOLDER]Jyro.exe"
                 WorkingDirectory="INSTALLFOLDER" />
       <RegistryValue Root="HKCU"
                      Key="Software\Mesch\Mesch Jyro"
@@ -64,7 +65,7 @@
     <!-- Program Files install path -->
     <StandardDirectory Id="ProgramFiles64Folder">
       <Directory Id="DIR_MESCH" Name="Mesch">
-        <Directory Id="INSTALLFOLDER" Name="Mesch Jyro" />
+        <Directory Id="INSTALLFOLDER" Name="Jyro" />
       </Directory>
     </StandardDirectory>
 
