@@ -152,10 +152,11 @@ internal sealed class JyroScriptExecutor : IJyroScriptExecutor
     {
         if (!result.IsSuccessful)
         {
+            var messageProvider = new MessageProvider();
             foreach (var msg in result.Messages)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(msg.ToString());
+                Console.WriteLine(messageProvider.Format(msg));
                 Console.ResetColor();
             }
             return 1;

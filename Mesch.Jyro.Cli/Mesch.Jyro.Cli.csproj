@@ -7,7 +7,7 @@
 		<!-- Package Information -->
 		<PackageId>Mesch.Jyro.Cli</PackageId>
 		<RootNamespace>Mesch.Jyro.Cli</RootNamespace>
-		<Version>0.6.0</Version>
+		<Version>0.7.0</Version>
 		<Authors>Mesch Systems</Authors>
 		<Company>Mesch Systems</Company>
 		<Summary>Command line interpreter for the Jyro language.</Summary>
